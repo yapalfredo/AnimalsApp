@@ -40,6 +40,17 @@ public class ListViewModel extends AndroidViewModel {
 
     //flag
     private Boolean invalidApikey = false;
+    private Boolean injected = false;
+
+    private void inject() {
+        if (!injected) {
+            //Dagger
+            DaggerViewModelComponent.builder()
+                    .appModule(new AppModule(getApplication()))
+                    .build()
+                    .inject(this);
+        }
+    }
 
     @Inject
     @TypeOfContext(CONTEXT_APP)
@@ -47,15 +58,15 @@ public class ListViewModel extends AndroidViewModel {
 
     public ListViewModel(@NonNull Application application) {
         super(application);
+    }
 
-        //Dagger
-        DaggerViewModelComponent.builder()
-                .appModule(new AppModule(getApplication()))
-                .build()
-                .inject(this);
+    public ListViewModel(Application application, Boolean isTest){
+        super(application);
+        injected = isTest;
     }
 
     public void refresh() {
+        inject();
         loading.setValue(true);
         invalidApikey = false;
         String key = prefs.getApiKey();
