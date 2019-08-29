@@ -7,51 +7,26 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
 import androidx.palette.graphics.Palette;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.animalsapp.R;
+import com.example.animalsapp.databinding.FragmentDetailsBinding;
 import com.example.animalsapp.model.AnimalModel;
-import com.example.animalsapp.util.Util;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.example.animalsapp.model.AnimalPalette;
 
 public class DetailsFragment extends Fragment {
 
     private AnimalModel animal;
-
-    @BindView(R.id.animalImage)
-    ImageView animalImage;
-
-    @BindView(R.id.animalName)
-    TextView animalName;
-
-    @BindView(R.id.animalLocation)
-    TextView animalLocation;
-
-    @BindView(R.id.animalLifespan)
-    TextView animalLifespan;
-
-    @BindView(R.id.animalDiet)
-    TextView animalDiet;
-
-    @BindView(R.id.animalLinearLayout)
-    LinearLayout animalLinearLayout;
-
+    FragmentDetailsBinding animalDetailBinding;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -61,11 +36,11 @@ public class DetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_details, container, false);
 
-        ButterKnife.bind(this, view);
-        return view;
+        //Data binding view
+        animalDetailBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false);
+
+        return animalDetailBinding.getRoot();
     }
 
     @Override
@@ -78,13 +53,7 @@ public class DetailsFragment extends Fragment {
         }
 
         if (animal != null) {
-            animalName.setText(animal.name);
-            animalLocation.setText(animal.location);
-            animalLifespan.setText(animal.lifeSpan);
-            animalDiet.setText(animal.diet);
-
-            Util.loadImage(animalImage, animal.imageUrl, Util.getProgressDrawable(animalImage.getContext()));
-
+            animalDetailBinding.setAnimal(animal);
             setupBackgroundColor(animal.imageUrl);
         }
     }
@@ -101,7 +70,8 @@ public class DetailsFragment extends Fragment {
 
                             if (color != null) {
                                 int intColor = palette.getLightMutedSwatch().getRgb();
-                                animalLinearLayout.setBackgroundColor(intColor);
+                                AnimalPalette animalPalette = new AnimalPalette(intColor);
+                                animalDetailBinding.setPalette(animalPalette);
                             }
                         });
                     }
