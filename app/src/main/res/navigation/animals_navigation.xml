@@ -9,7 +9,7 @@
         android:id="@+id/listFragment"
         android:name="com.example.animalsapp.view.ListFragment"
         android:label="fragment_list"
-        tools:layout="@layout/fragment_list" >
+        tools:layout="@layout/fragment_list">
         <action
             android:id="@+id/actionDetails"
             app:destination="@id/detailsFragment"
@@ -20,15 +20,14 @@
         android:id="@+id/detailsFragment"
         android:name="com.example.animalsapp.view.DetailsFragment"
         android:label="fragment_details"
-        tools:layout="@layout/fragment_details" >
+        tools:layout="@layout/fragment_details">
         <action
             android:id="@+id/actionList"
             app:destination="@id/listFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
         <argument
-            android:name="animalId"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:name="animalModel"
+            app:argType="com.example.animalsapp.model.AnimalModel" />
     </fragment>
 </navigation>
