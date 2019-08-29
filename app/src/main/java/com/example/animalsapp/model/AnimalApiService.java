@@ -1,28 +1,29 @@
 package com.example.animalsapp.model;
 
+import com.example.animalsapp.di.DaggerApiComponent;
+
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Single;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AnimalApiService {
 
-    private static final String BASE_URL = "https://us-central1-apis-4674e.cloudfunctions.net/";
+    @Inject
+    AnimalApi api;
 
-    AnimalApi api = new Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
-            .create(AnimalApi.class);
+    public AnimalApiService() {
 
-    public Single<ApiKeyModel> getApiKey(){
-        return  api.getApiKey();
+        //Dagger
+        DaggerApiComponent.create().inject(this);
     }
 
-    public  Single<List<AnimalModel>> getAnimals(String key){
+    public Single<ApiKeyModel> getApiKey() {
+        return api.getApiKey();
+    }
+
+    public Single<List<AnimalModel>> getAnimals(String key) {
         return api.getAnimals(key);
     }
 }

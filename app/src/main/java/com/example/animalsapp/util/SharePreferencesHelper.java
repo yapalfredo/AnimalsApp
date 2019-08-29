@@ -15,11 +15,11 @@ public class SharePreferencesHelper {
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public void saveApiKey(String key){
-        prefs.edit().putString(PREF_API_KEY,key).apply();
+    public void saveApiKey(String key) {
+        prefs.edit().putString(PREF_API_KEY, key).apply();
     }
 
-    public String getApiKey(){
-        return prefs.getString(PREF_API_KEY,null);
+    public String getApiKey() {
+        return prefs.getString(PREF_API_KEY, null);
     }
 }
